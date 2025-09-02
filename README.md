@@ -1,47 +1,30 @@
-# requirements_dev.txt we use for the testing
-It makes it easier to install and manage dependencies for development and testing, separate from the dependencies required for production.
+# databseautomationhuz
 
-# difference between requirements_dev.txt and requirements.txt
+This is a lightweight Python package that simplifies working with MongoDB. It provides an easy-to-use interface for creating clients, connecting to databases, managing collections, inserting single or multiple records, and performing bulk inserts directly from CSV or Excel files. With built-in type safety checks and automatic handling of database/collection creation, it reduces boilerplate code and prevents common errors when interacting with MongoDB. Ideal for data engineering, ETL pipelines, and machine learning projects that require structured data storage and quick dataset imports into MongoDB.
 
-requirements.txt is used to specify the dependencies required to run the production code of a Python project, while requirements_dev.txt is used to specify the dependencies required for development and testing purposes.
+## Example Usage
 
-# tox.ini
-We use if for the testing in the python package testing against different version of the python 
+```python
+# Import the class
+from databseautomationhuz.mongo_crud import MongoOperation
 
-## how tox works tox enviornment creation
-1. Install depedencies and packages 
-2. Run commands
-3. Its a combination of the (virtualenvwrapper and makefile)
-4. It creates a .tox
+# Step 1: Initialize MongoDB connection
+db = MongoOperation("client_url", "db_name", "collection_name")
 
+# Step 2: Insert a single record
+db.insert_record({"name": "Huzaifa", "age": 25}, "Users")
 
-# pyproject.toml
-it is being used for configuration the python project it is a alternative of the setup.cfg file. its containts configuration related to the build system
-such as the build tool used package name version author license and dependencies
+# Step 3: Insert multiple records
+db.insert_record(
+    [
+        {"name": "Sara", "age": 30},
+        {"name": "John", "age": 40}
+    ],
+    "Users"
+)
 
-# setup.cfg
-In summary, setup.cfg is used by setuptools to configure the packaging and installation of a Python projec
+# Step 4: Bulk insert from CSV
+db.bulk_insert("employees.csv", "Employees")
 
-# Testing python application
-*types of testing*
-1. Automated testing 
-2. Manual testing
-
-*Mode of testing*
-1. Unit testing
-2. Integration tests
-
-*Testing frameworks*
-
-1. pytest
-2. unittest
-3. robotframework
-4. selenium
-5. behave
-6. doctest
-
-# check with the code style formatting and syntax(coding standard)
-
-1. pylint
-2. flake8(it is best because it containt 3 library pylint pycodestyle mccabe)
-3. pycodestyle
+# Step 5: Bulk insert from Excel
+db.bulk_insert("sales_data.xlsx", "Sales")
