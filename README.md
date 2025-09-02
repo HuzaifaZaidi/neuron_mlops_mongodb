@@ -1,4 +1,1 @@
-This is a lightweight Python utility class that simplifies working with MongoDB. 
-It provides an easy-to-use interface for creating clients, connecting to databases, managing collections, inserting single or multiple records, and performing bulk inserts directly from CSV or Excel files.
-With built-in type safety checks and automatic handling of database/collection creation, it reduces boilerplate code and prevents common errors when interacting with MongoDB.
-Ideal for data engineering, ETL pipelines, and machine learning projects that require structured data storage and quick dataset imports into MongoDB.
+
