@@ -16,7 +16,7 @@ def get_requirements(file_path: str) -> List[str]:
     return requirements
 
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 REPO_NAME = "neuron_mlops_mongodb"
 PKG_NAME = "databaseautomationhuz"
 AUTHOR_USER_NAME = "HuzaifaZaidi"
