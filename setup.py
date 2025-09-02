@@ -21,7 +21,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 __version__ = "0.0.4"
 REPO_NAME = "neuron_mlops_mongodb"
-PKG_NAME= "databaseautomationhz"
+PKG_NAME= "databaseautomationhuz"
 AUTHOR_USER_NAME = "HuzaifaZaidi"
 AUTHOR_EMAIL = "huzaifaahmedzaidi@gmail.com"
 
