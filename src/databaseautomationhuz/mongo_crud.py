@@ -39,17 +39,18 @@ class MongoOperation:
         return self._collection
 
     @ensure_annotations
-    def insert_record(self, record: Any, collection_name: str) -> None:
-        collection = self.create_collection(collection_name)
-
-        if isinstance(record, list):
-            if not all(isinstance(data, dict) for data in record):
-                raise TypeError("Each record in the list must be a dict.")
+    def insert_record(self, record: dict, collection_name: str) -> Any:
+        if type(record) == list:
+            for data in record:
+                if type(data) != dict:
+                    raise TypeError("record must be in the dict")
+            collection = self.create_collection(collection_name)
             collection.insert_many(record)
-        elif isinstance(record, dict):
+    
+        elif type(record) == dict:
+            collection = self.create_collection(collection_name)
             collection.insert_one(record)
-        else:
-            raise TypeError("Record must be a dict or list of dicts.")
+
 
     def bulk_insert(self, datafile: str, collection_name: str = None):
         if datafile.endswith('.csv'):
