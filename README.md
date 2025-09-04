@@ -5,26 +5,35 @@ This is a lightweight Python package that simplifies working with MongoDB. It pr
 ## Example Usage
 
 ```python
-# Import the class
-from databseautomationhuz.mongo_crud import MongoOperation
+# !pip install databaseautomationhuz==0.0.11
+from databaseautomationhuz.mongo_crud import MongoOperation
 
-# Step 1: Initialize MongoDB connection
-db = MongoOperation("client_url", "db_name", "collection_name")
-
-# Step 2: Insert a single record
-db.insert_record({"name": "Huzaifa", "age": 25}, "Users")
-
-# Step 3: Insert multiple records
-db.insert_record(
-    [
-        {"name": "Sara", "age": 30},
-        {"name": "John", "age": 40}
-    ],
-    "Users"
+# Step 1: Initialize the MongoOperation object
+mongo = MongoOperation(
+    client_url="mongodb+srv://huzaifaahmedzaidi:@cluster0.yipsi0i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    database_name="firstmongodbconnection"
 )
 
-# Step 4: Bulk insert from CSV
-db.bulk_insert("employees.csv", "Employees")
+# Step 2: Create collection
+collection = mongo.create_collection("my_collection2")
 
-# Step 5: Bulk insert from Excel
-db.bulk_insert("sales_data.xlsx", "Sales")
+# Step 3: Insert a single record
+mongo.insert_record(
+    record={"name": "Huzaifa", "age": 24, "role": "ML Engineer"},
+    collection_name="my_collection2"
+)
+
+# Step 4: Insert multiple records
+mongo.insert_record(
+    record=[
+        {"name": "Ali", "age": 25, "role": "Data Scientist"},
+        {"name": "Sara", "age": 22, "role": "Developer"}
+    ],
+    collection_name="my_collection2"
+)
+
+# Step 5: Bulk insert from CSV (students.csv should be in same folder)
+# mongo.bulk_insert("students.csv", "my_collection2")
+
+print("All data inserted successfully!")
+
