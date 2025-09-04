@@ -1,12 +1,11 @@
-from typing import Union, List, Dict
+from typing import Optional
 import pandas as pd
 from pymongo.mongo_client import MongoClient
 import json
-from ensure import ensure_annotations
 
 
 class MongoOperation:
-    def __init__(self, client_url: str, database_name: str, collection_name: str = None):
+    def __init__(self, client_url: str, database_name: str, collection_name: Optional[str] = None):
         self.client_url = client_url
         self.database_name = database_name
         self.collection_name = collection_name
@@ -25,7 +24,7 @@ class MongoOperation:
             self._database = client[self.database_name]
         return self._database
 
-    def create_collection(self, collection_name: str = None):
+    def create_collection(self, collection_name: Optional[str] = None):
         if collection_name:
             self.collection_name = collection_name
 
@@ -38,23 +37,26 @@ class MongoOperation:
 
         return self._collection
 
-    @ensure_annotations
-    def insert_record(self, record: Union[Dict, List[Dict]], collection_name: str):
-        if isinstance(record, list):
+    def insert_record(self, record, collection_name: str):
+        """Insert a single record (dict) or multiple records (list of dicts)."""
+        if type(record) == list:
             for data in record:
-                if not isinstance(data, dict):
+                if type(data) != dict:
                     raise TypeError("Each record must be a dict")
             collection = self.create_collection(collection_name)
-            collection.insert_many(record)
-            return f"{len(record)} documents inserted"
-    
-        elif isinstance(record, dict):
+            result = collection.insert_many(record)
+            return f"{len(result.inserted_ids)} documents inserted"
+
+        elif type(record) == dict:
             collection = self.create_collection(collection_name)
-            collection.insert_one(record)
-            return "1 document inserted"
+            result = collection.insert_one(record)
+            return f"1 document inserted with id {result.inserted_id}"
 
+        else:
+            raise TypeError("record must be a dict or list of dicts")
 
-    def bulk_insert(self, datafile: str, collection_name: str = None):
+    def bulk_insert(self, datafile: str, collection_name: Optional[str] = None):
+        """Insert records from CSV or Excel into MongoDB."""
         if datafile.endswith('.csv'):
             dataframe = pd.read_csv(datafile, encoding='utf-8')
         elif datafile.endswith(".xlsx"):
@@ -64,5 +66,5 @@ class MongoOperation:
 
         datajson = json.loads(dataframe.to_json(orient='records'))
         collection = self.create_collection(collection_name)
-        collection.insert_many(datajson)
-        return f"{len(datajson)} records inserted successfully into '{collection.name}'"
+        result = collection.insert_many(datajson)
+        return f"{len(result.inserted_ids)} records inserted successfully into '{collection.name}'"
