@@ -25,7 +25,7 @@ if os.path.exists("README.md"):
 else:
     long_description = "A python package for connecting with database."
 
-__version__ = "0.0.8"   
+__version__ = "0.0.9"   
 REPO_NAME = "neuron_mlops_mongodb"
 PKG_NAME = "databaseautomationhuz"
 AUTHOR_USER_NAME = "HuzaifaZaidi"
