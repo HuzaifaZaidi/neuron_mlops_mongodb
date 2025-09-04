@@ -5,7 +5,7 @@ This is a lightweight Python package that simplifies working with MongoDB. It pr
 ## Example Usage
 
 ```python
-# !pip install databaseautomationhuz==0.0.11
+# !pip install databaseautomationhuz
 from databaseautomationhuz.mongo_crud import MongoOperation
 
 # Step 1: Initialize the MongoOperation object
