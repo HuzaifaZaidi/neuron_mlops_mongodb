@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Union, List, Dict
 import pandas as pd
 from pymongo.mongo_client import MongoClient
 import json
@@ -39,17 +39,19 @@ class MongoOperation:
         return self._collection
 
     @ensure_annotations
-    def insert_record(self, record: dict, collection_name: str):
-        if type(record) == list:
+    def insert_record(self, record: Union[Dict, List[Dict]], collection_name: str):
+        if isinstance(record, list):
             for data in record:
-                if type(data) != dict:
-                    raise TypeError("record must be in the dict")
+                if not isinstance(data, dict):
+                    raise TypeError("Each record must be a dict")
             collection = self.create_collection(collection_name)
             collection.insert_many(record)
+            return f"{len(record)} documents inserted"
     
-        elif type(record) == dict:
+        elif isinstance(record, dict):
             collection = self.create_collection(collection_name)
             collection.insert_one(record)
+            return "1 document inserted"
 
 
     def bulk_insert(self, datafile: str, collection_name: str = None):
