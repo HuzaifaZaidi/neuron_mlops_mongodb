@@ -39,7 +39,7 @@ class MongoOperation:
         return self._collection
 
     @ensure_annotations
-    def insert_record(self, record: dict, collection_name: str) -> Any:
+    def insert_record(self, record: dict, collection_name: str):
         if type(record) == list:
             for data in record:
                 if type(data) != dict:
